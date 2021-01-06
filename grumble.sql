@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-12-2020 a las 16:14:03
+-- Tiempo de generación: 06-01-2021 a las 17:50:14
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.11
 
@@ -84,8 +84,15 @@ CREATE TABLE `profesional` (
   `nombreDuenyo` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `telefono` int(11) DEFAULT NULL,
   `fechaCreacion` date DEFAULT NULL,
-  `foto` varchar(200) COLLATE utf8_bin DEFAULT NULL
+  `foto` varchar(350) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `profesional`
+--
+
+INSERT INTO `profesional` (`idUsuario`, `direccion`, `nombreDuenyo`, `telefono`, `fechaCreacion`, `foto`) VALUES
+(1, 'c/ del Admin', 'Pinedin', 672728588, '2021-01-04', '1609779518Harley-Quinn.jpg');
 
 -- --------------------------------------------------------
 
@@ -137,8 +144,15 @@ CREATE TABLE `usuario` (
   `nickName` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `email` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `password` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `tipo` text COLLATE utf8_bin DEFAULT NULL
+  `tipo` varchar(2) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`idUsuario`, `nickName`, `email`, `password`, `tipo`) VALUES
+(1, 'admin', 'admin@admin.es', '1234', 'M');
 
 --
 -- Índices para tablas volcadas
@@ -215,6 +229,12 @@ ALTER TABLE `post`
   MODIFY `idPost` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `profesional`
+--
+ALTER TABLE `profesional`
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `receta`
 --
 ALTER TABLE `receta`
@@ -236,7 +256,7 @@ ALTER TABLE `seguidor`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
