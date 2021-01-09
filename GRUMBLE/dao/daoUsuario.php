@@ -38,4 +38,29 @@ class daoUsuario {
         mysqli_close($conn);
         return $userAux;
     }
+
+
+ public function actualizar($objUsuario) {
+
+        $conn = mysqli_connect("localhost", "root", "", "grumble");
+
+        $idUsuario = $objUsuario->getIdUsuario();
+        $nick = $objUsuario->getNick();
+        $password = $objUsuario->getPassword();
+        $email = $objUsuario->getEmail();
+        
+
+        if($password != ""){
+        $sql = "UPDATE grumble.usuario SET nickName='".$nick."',email='".$email."',password='".$password."' WHERE idUsuario='$idUsuario'";
+        } else {
+        $sql = "UPDATE grumble.usuario SET nickName='".$nick."',email='".$email."' WHERE idUsuario='$idUsuario'";
+        }
+        if (!$conn->query($sql)) {
+            return false;
+        } else {
+            return true;
+        }
+
+        mysqli_close($conn);
+    }
 }

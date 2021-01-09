@@ -64,15 +64,6 @@ function esLetra(x) {
     return /[a-zA-Z]/.test(x);
 }
 
-function comprobarTelefono(elemento) {
-    var valor = elemento.value;
-    var digitos = valor.length;
-    var ultimoDigito = valor.substr(valor.length - 1, valor.length);
-    if (digitos >= 10 || esLetra(ultimoDigito)) {
-        elemento.value = valor.substr(0, valor.length - 1);
-    }
-}
-
 function validar() {
     var numSpanForm = $("form").has("span").length;
 

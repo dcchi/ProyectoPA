@@ -1,11 +1,11 @@
 <?php
 session_start();
-$_SESSION['usuario'] = 1;
+$_SESSION['usuario'] = 2;
 if ($_SESSION['usuario']) {
     require_once '../dao/daoUsuario.php';
     require_once '../modelo/usuario.php';
-    require_once '../dao/daoProfesional.php';
-    require_once '../modelo/profesional.php';
+    require_once '../dao/daoParticular.php';
+    require_once '../modelo/particular.php';
     ?>
     <!DOCTYPE html>
     <html>
@@ -13,7 +13,7 @@ if ($_SESSION['usuario']) {
             <meta charset="UTF-8">
             <title>Configuración</title>
             <script type="text/javascript" src="../js/jquery-3.5.1.min.js"></script>
-            <script type="text/javascript" src="../js/configPro.js"></script>
+            <script type="text/javascript" src="../js/configPar.js"></script>
             <link rel="stylesheet" type="text/css" href="../css/cssCongPro.css">
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         </head>
@@ -29,7 +29,7 @@ if ($_SESSION['usuario']) {
                         <div class='col'>
                             <span class='badge badge-pill badge-light'>Para ver la información de su cuenta, introduzca la contraseña</span>
                             <br/><br/>
-                            <form action="configProfesional.php" method="POST">
+                            <form action="configParticular.php" method="POST">
                                 <label for='password' class='label label-default'>Contraseña</label>
                                 <input type="password" class='form-control' name="password" placeholder="Contraseña"/> <br>
                                 <input type="submit" class="btn btn-light" name="btnLogin" value="Acceder"/>
@@ -50,21 +50,20 @@ if ($_SESSION['usuario']) {
             if ($userBD) {
                 $password = $userBD['password'];
                 if (password_verify($passwordAux, $password)) {
-
-                    $objProfesional = new daoProfesional();
-                    $profesionalAux = $objProfesional->obtenerDatosProfesional($idUsuario);
-                    $direccion = $profesionalAux['direccion'];
-                    $nombreDuenyo = $profesionalAux['nombreDuenyo'];
-                    $telefono = $profesionalAux['telefono'];
-                    $fechaCreacion = $profesionalAux['fechaCreacion'];
-                    $foto = $profesionalAux['foto'];
+                    $objParticular = new daoParticular();
+                    $particularAux = $objParticular->obtenerDatosParticular($idUsuario);
+                    $nombre = $particularAux['nombre'];
+                    $apellidos = $particularAux['apellidos'];
+                    $sexo = $particularAux['sexo'];
+                    $fechaNacimiento = $particularAux['fechaNacimiento'];
+                    $foto = $particularAux['foto'];
                     $email = $userBD['email'];
                     $nickname = $userBD['nickName'];
                     ?>
                     <div class='container py-5'>
                         <div class="row">
                             <div class="col-md-10 mx-auto">
-                                <form action="configProfesional.php" class='form-horizontal' method="POST" enctype="multipart/form-data" onsubmit="return validar()">
+                                <form action="configParticular.php" class='form-horizontal' method="POST" enctype="multipart/form-data" onsubmit="return validar()">
                                     <div class="form-group row">
                                         <div class='col-sm-6'>
                                             <label for="fotoPerfil">Foto de perfil</label><br/>
@@ -78,8 +77,8 @@ if ($_SESSION['usuario']) {
                                             <input type="text" name="nickname" id="nickname" class="form-control" value="<?php echo $nickname; ?>" onfocus="conFoco('nickname')" onblur="sinFoco('nickname')" required="required">
                                         </div>
                                         <div class='col-sm-6'>
-                                            <label for="direccion">Direccion</label>
-                                            <input type="text" name="direccion" id="direccion" class="form-control" value="<?php echo $direccion; ?>" onfocus="conFoco('direccion')" onblur="sinFoco('direccion')" onchange="comprobarElemento('direccion')">
+                                            <label for="nombre">Nombre</label>
+                                            <input type="text" name="nombre" id="nombre" class="form-control" value="<?php echo $nombre; ?>" onfocus="conFoco('nombre')" onblur="sinFoco('nombre')" onchange="comprobarElemento('#nombre')">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -88,8 +87,8 @@ if ($_SESSION['usuario']) {
                                             <input type="text" name="email" id="email" class="form-control" value="<?php echo $email; ?>" onfocus="conFoco('email')" onblur="sinFoco('email')" onchange="comprobarEmail('#email')" required="required">
                                         </div>
                                         <div class='col-sm-6'>
-                                            <label for="nombreDuenyo">Nombre del dueño</label>
-                                            <input type="text" name="nombreDuenyo" id="nombreDuenyo" class="form-control" value="<?php echo $nombreDuenyo; ?>" onfocus="conFoco('nombreDuenyo')" onblur="sinFoco('nombreDuenyo')" onchange="comprobarElemento('#nombreDuenyo')">
+                                            <label for="apellidos">Apellidos</label>
+                                            <input type="text" name="apellidos" id="apellidos" class="form-control" value="<?php echo $apellidos; ?>" onfocus="conFoco('apellidos')" onblur="sinFoco('apellidos')" onchange="comprobarElemento('#apellidos')">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -98,8 +97,12 @@ if ($_SESSION['usuario']) {
                                             <input type="password" name="nuevaPass" id="nuevaPass" class="form-control" value="" onchange="seguridadPassword('nuevaPass')">
                                         </div>
                                         <div class='col-sm-6'>
-                                            <label for="telefono">Telefono</label>
-                                            <input type="text" name="telefono" id="telefono"  class="form-control" value="<?php echo $telefono; ?>" onfocus="conFoco('telefono')" onblur="sinFoco('telefono')" onkeyup="comprobarTelefono(this)">
+                                            <label for="sexo">Sexo</label><br/>
+                                            <select id="sexo" name="sexo" class="form-control">
+                                                <option value="M">Masculino</option>
+                                                <option value="F">Femenino</option>
+                                                <option value="O">Otro</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -108,8 +111,8 @@ if ($_SESSION['usuario']) {
                                             <input type="password" name="confPass" id="confPass" class="form-control" onfocus="conFoco('confPass')" onblur="sinFoco('confPass')" onchange="comprobarPassword('#confPass')">
                                         </div>
                                         <div class='col-sm-6'>
-                                            <label for="fechaCreacion">Fecha de creacion</label>
-                                            <input type="date" name="fechaCreacion" class="form-control" id='fechaCreacion' value="<?php echo $fechaCreacion; ?>" onchange="esFechaFutura('#fechaCreacion')">
+                                            <label for="fechaCreacion">Fecha de nacimiento</label>
+                                            <input type="date" name="fechaNacimiento" class="form-control" id='fechaNacimiento' value="<?php echo $fechaNacimiento; ?>" onchange="esFechaFutura('#fechaNacimiento')">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -125,7 +128,7 @@ if ($_SESSION['usuario']) {
 
                 <?php
             } else {
-                header("location:configProfesional.php");
+                header("location:configParticular.php");
             }
         }
     } if (!isset($_POST['btnLogin']) && isset($_POST['btnCancelar']) && !isset($_POST['btnActualizar']) && !isset($_POST['btnVolver'])) {
@@ -134,10 +137,10 @@ if ($_SESSION['usuario']) {
         header("location:index.php");
     } if (!isset($_POST['btnLogin']) && !isset($_POST['btnCancelar']) && isset($_POST['btnActualizar']) && !isset($_POST['btnVolver'])) {
 
-        $nuevaDireccion = $_POST['direccion'];
-        $nuevoNombreDuenyo = $_POST['nombreDuenyo'];
-        $nuevoTelefono = $_POST['telefono'];
-        $nuevaFechaCreacion = $_POST['fechaCreacion'];
+        $nuevoNombre = $_POST['nombre'];
+        $nuevosApellidos = $_POST['apellidos'];
+        $nuevoSexo = $_POST['sexo'];
+        $nuevaFechaNacimiento = $_POST['fechaNacimiento'];
         $nuevoNickName = $_POST['nickname'];
         $nuevoEmail = $_POST['email'];
         $nuevaPassword = $_POST['nuevaPass'];
@@ -153,8 +156,8 @@ if ($_SESSION['usuario']) {
             $nuevaFoto = "";
         }
 
-        $nuevoProfesional = new Profesional();
-        $objProfesional2 = new daoProfesional();
+        $nuevoParticular = new Particular();
+        $objParticular = new daoParticular();
         $nuevoUsuario = new Usuario();
         $objUsuario = new daoUsuario();
 
@@ -174,14 +177,14 @@ if ($_SESSION['usuario']) {
 
         $objUsuario->actualizar($nuevoUsuario);
 
-        $nuevoProfesional->setIdUsuario($_SESSION['usuario']);
-        $nuevoProfesional->setDireccion($nuevaDireccion);
-        $nuevoProfesional->setNombreDuenyo($nuevoNombreDuenyo);
-        $nuevoProfesional->setTelefono($nuevoTelefono);
-        $nuevoProfesional->setFechaCreacion($nuevaFechaCreacion);
-        $nuevoProfesional->setFoto($nuevaFoto);
+        $nuevoParticular->setIdUsuario($_SESSION['usuario']);
+        $nuevoParticular->setNombre($nuevoNombre);
+        $nuevoParticular->setApellidos($nuevosApellidos);
+        $nuevoParticular->setSexo($nuevoSexo);
+        $nuevoParticular->setFechaNacimiento($nuevaFechaNacimiento);
+        $nuevoParticular->setFoto($nuevaFoto);
 
-        $objProfesional2->actualizar($nuevoProfesional);
+        $objParticular->actualizar($nuevoParticular);
         ?>
         <div class="alert alert-success" role="alert">
             <h4 class="alert-heading">Información Actualizada</h4>
