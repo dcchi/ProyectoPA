@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-01-2021 a las 17:50:14
+-- Tiempo de generación: 21-01-2021 a las 17:07:38
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.11
 
@@ -33,6 +33,13 @@ CREATE TABLE `carta` (
   `nombreCarta` varchar(50) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+--
+-- Volcado de datos para la tabla `carta`
+--
+
+INSERT INTO `carta` (`idCarta`, `idUsuario`, `nombreCarta`) VALUES
+(1, 1, 'Bar del Admin');
+
 -- --------------------------------------------------------
 
 --
@@ -58,6 +65,13 @@ CREATE TABLE `particular` (
   `fechaNacimiento` date DEFAULT NULL,
   `foto` varchar(200) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `particular`
+--
+
+INSERT INTO `particular` (`idUsuario`, `nombre`, `apellidos`, `sexo`, `fechaNacimiento`, `foto`) VALUES
+(2, 'Pepe', 'Perez Ramirez', 'M', '1998-06-20', '1610209571184836.jpg');
 
 -- --------------------------------------------------------
 
@@ -103,9 +117,24 @@ INSERT INTO `profesional` (`idUsuario`, `direccion`, `nombreDuenyo`, `telefono`,
 CREATE TABLE `receta` (
   `idReceta` int(11) NOT NULL,
   `idCarta` int(11) DEFAULT NULL,
+  `idUsuario` int(11) NOT NULL,
   `nombreReceta` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `foto` varchar(50) COLLATE utf8_bin DEFAULT NULL
+  `foto` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `tipo` varchar(50) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `receta`
+--
+
+INSERT INTO `receta` (`idReceta`, `idCarta`, `idUsuario`, `nombreReceta`, `foto`, `tipo`) VALUES
+(1, 1, 1, 'Champolla', NULL, 'Primeros'),
+(3, 1, 1, 'Amborgueso', NULL, 'Primeros'),
+(4, 1, 1, 'PatatasBravas', NULL, 'Entrante'),
+(11, 0, 1, 'Agua', NULL, 'Bebidas'),
+(12, 0, 1, 'TartaQueso', NULL, 'Postres'),
+(13, 1, 1, 'Guisantes', NULL, 'Segundos'),
+(14, 0, 1, 'Macarrones', NULL, 'Primeros');
 
 -- --------------------------------------------------------
 
@@ -143,7 +172,7 @@ CREATE TABLE `usuario` (
   `idUsuario` int(11) NOT NULL,
   `nickName` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `email` varchar(45) COLLATE utf8_bin DEFAULT NULL,
-  `password` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `password` varchar(100) COLLATE utf8_bin DEFAULT NULL,
   `tipo` varchar(2) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -152,7 +181,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`idUsuario`, `nickName`, `email`, `password`, `tipo`) VALUES
-(1, 'admin', 'admin@admin.es', '1234', 'M');
+(1, 'admin', 'admin@admin.es', '$2y$10$7o7dY/65F4ntUpDwhlGySusOTgv8TtuNilJkwNJD0vZlCaapk0w6O', 'M'),
+(2, '@pepePerez', 'elpepe@gmail.com', '$2y$10$Chtl6V.22IzIaQhq.0YuB.ZrvNrbCB6YQDVzmvx6.qxs550p7sr2G', 'P');
 
 --
 -- Índices para tablas volcadas
@@ -220,7 +250,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `carta`
 --
 ALTER TABLE `carta`
-  MODIFY `idCarta` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idCarta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `post`
@@ -238,7 +268,7 @@ ALTER TABLE `profesional`
 -- AUTO_INCREMENT de la tabla `receta`
 --
 ALTER TABLE `receta`
-  MODIFY `idReceta` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idReceta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `reseña`
@@ -256,7 +286,7 @@ ALTER TABLE `seguidor`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
