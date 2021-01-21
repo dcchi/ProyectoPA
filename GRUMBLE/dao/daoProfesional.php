@@ -23,6 +23,7 @@ class daoProfesional {
         } else {
         $sql = "UPDATE grumble.profesional SET direccion='".$direccion."',nombreDuenyo='".$nombreDuenyo."',telefono='".$telefono."',fechaCreacion='".$fechaCreacion."' WHERE idUsuario='$idUsuario'";
         }
+        
         if (!$conn->query($sql)) {
             return false;
         } else {
