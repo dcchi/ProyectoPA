@@ -23,4 +23,20 @@ class daoPost {
         return $arrayPost;
     }
 
+    public function listarIdUsuario($idUsuario) {
+
+        $conn = mysqli_connect("localhost", "root", "", "grumble");
+        $sql = "SELECT * FROM post WHERE idUsuario='$idUsuario'";
+
+        $result = $conn->query($sql);
+        $arrayPost = array();
+
+        while ($fila = mysqli_fetch_assoc($result)) {
+            array_push($arrayPost, $fila);
+        }
+
+        mysqli_close($conn);
+        return $arrayPost;
+    }
+
 }

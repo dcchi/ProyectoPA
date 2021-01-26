@@ -224,7 +224,7 @@ if ($_SESSION['usuario']) {
                 <?php
                 header("refresh:3;url=carta.php");
             } else if (!isset($_POST['btnActualizar']) && isset($_POST['btnVolver'])) {
-                header("refresh:3;url=index.php");
+                header("location:index.php");
             }
             ?>
         </body>

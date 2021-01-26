@@ -1,6 +1,8 @@
 <?php
 session_start();
 $_SESSION['usuario'] = 1;
+$_SESSION['userBuscado'] = 2;
+require_once '../dao/daoSeguidor.php';
 ?>
 <!DOCTYPE html>
 <!--
@@ -26,7 +28,44 @@ and open the template in the editor.
                     <br/><br/>
                     <button id="confParticular" onclick="redirigirParticular()">Editar Particular</button>
                     <br/><br/>
+                    <button id="myGallery" onclick="redirigirGaleria()">Mis fotos</button>
+                    <br/><br/>
+                    <button id="resenya" onclick="redirigirResenya()">Hacer reseña</button>
+                    <br/><br/>
                     <button id="carta" onclick="redirigirCarta()">Carta</button>
+                    <br/><br/>
+                    <?php
+                    $objSeguidor = new daoSeguidor();
+                    $siguiendo = false;
+                    $idUsuario = $_SESSION['usuario'];
+                    $idUserEnc = $_SESSION['userBuscado'];
+
+                    $listaSeguidos = $objSeguidor->listaDeSeguidos($idUsuario);
+                    //print_r($listaSeguidos);
+                    if (sizeof($listaSeguidos) > 0) {
+                        $enc = false;
+                        $i = 0;
+                        while (!$enc) {
+                            if ($listaSeguidos[$i]['idUsuario'] == $idUserEnc) {
+                                $enc = true;
+                                $siguiendo = true;
+                            } else {
+                                $i++;
+                            }
+                        }
+                    } else {
+                        $siguiendo = false;
+                    }
+                    ?>
+                    <button id="btnFollow" class="btn btn-primary" onclick="comprobarFollow(<?php echo $idUsuario; ?>,<?php echo $idUserEnc; ?>)">
+                        <?php
+                        if ($siguiendo) {
+                            echo "Siguiendo";
+                        } else {
+                            echo "Seguir";
+                        }
+                        ?>
+                    </button>
                 </div>
                 <div class="col" id="colPost">
                     <div class="alert alert-success alert-dimissible" id="success" style="display:none;">
@@ -34,6 +73,7 @@ and open the template in the editor.
                     </div>
                     <span class="badge badge-pill">POST</span>
                     <textarea id="txtPost" name="txtPost" rows="2" cols="40" placeholder="¿Alguna novedad?" onkeyup="comprobarTextArea(this)"></textarea>
+                    <input type="file" class="form-control-file" id="fotoPost">
                     <input type="hidden" id="idUsuario" name="idUsuario" value="<?php echo $_SESSION['usuario']; ?>">
                     <button id="btnPublicar" class="btn btn-primary" onclick="guardarPost()">Publicar</button>
                 </div>

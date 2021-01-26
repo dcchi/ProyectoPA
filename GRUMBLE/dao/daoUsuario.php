@@ -65,13 +65,28 @@ class daoUsuario {
 
     public function getUsuario($nombreUsuario) {
         $conn = mysqli_connect("localhost", "root", "", "grumble");
-        $sql = "SELECT idUsuario, nickName FROM usuario WHERE nickName LIKE '%".$nombreUsuario."%' ORDER BY nickName ASC";
+        $sql = "SELECT * FROM usuario WHERE nickName='$nombreUsuario'";
 
         $result = $conn->query($sql);
-        $listaCoincidencias = mysqli_fetch_assoc($result);
+        $userAux = mysqli_fetch_assoc($result);
 
         mysqli_close($conn);
-        return $listaCoincidencias;
+        return $userAux;
     }
 
+    public function listarTipo($tipo) {
+
+        $conn = mysqli_connect("localhost", "root", "", "grumble");
+        $sql = "SELECT * FROM usuario WHERE tipo='$tipo'";
+
+        $result = $conn->query($sql);
+        $arrayUsuario = array();
+
+        while ($fila = mysqli_fetch_assoc($result)) {
+            array_push($arrayUsuario, $fila);
+        }
+
+        mysqli_close($conn);
+        return $arrayUsuario;
+    }
 }
